@@ -11,6 +11,9 @@ import (
 
 func ToDir(root string, a *txtar.Archive) error {
 	for _, f := range a.Files {
+		if !filepath.IsLocal(f.Name) {
+			return fmt.Errorf("txtarutil.ToDir: file name is not a valid local path on current OS: %s", f.Name)
+		}
 		path := filepath.Join(root, f.Name)
 		// Create file's parent dir
 		dir := filepath.Dir(path)
