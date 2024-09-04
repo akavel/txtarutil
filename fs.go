@@ -1,3 +1,8 @@
+// Package txtarutil provides utility functions for the txtar trivial
+// text-based file archive format.
+//
+// The functions provided by the package allow easy reading and writing of
+// txtar archive contents from/to disk.
 package txtarutil
 
 import (
@@ -9,6 +14,9 @@ import (
 	"golang.org/x/tools/txtar"
 )
 
+// ToDir writes the files specified in a to directory at root path.
+// Directories are created if needed. Existing files may get overwritten.
+// Checks file names using [filepath.IsLocal], returning an error if not passed.
 func ToDir(root string, a *txtar.Archive) error {
 	for _, f := range a.Files {
 		if !filepath.IsLocal(f.Name) {
@@ -30,6 +38,8 @@ func ToDir(root string, a *txtar.Archive) error {
 	return nil
 }
 
+// FromFS walks the filesystem tree at root, adding any files and their contents
+// into a [txtar.Archive].
 func FromFS(root fs.FS) (*txtar.Archive, error) {
 	a := &txtar.Archive{}
 	err := fs.WalkDir(root, ".", func(path string, d fs.DirEntry, err error) error {
@@ -44,7 +54,7 @@ func FromFS(root fs.FS) (*txtar.Archive, error) {
 			return err
 		}
 		a.Files = append(a.Files, txtar.File{
-			Name: path, // TODO: verify if we don't have to call filepath.ToSlash
+			Name: path,
 			Data: data,
 		})
 		return nil
