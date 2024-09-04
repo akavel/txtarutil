@@ -2,7 +2,7 @@
 // text-based file archive format.
 //
 // The functions provided by the package allow easy reading and writing of
-// txtar archive contents from/to disk.
+// [txtar] archive contents from/to disk.
 package txtarutil
 
 import (
