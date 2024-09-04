@@ -14,11 +14,11 @@ import (
 	"golang.org/x/tools/txtar"
 )
 
-// ToDir writes the files specified in a to directory at root path.
+// ToDir writes the files specified in the archive to directory at root path.
 // Directories are created if needed. Existing files may get overwritten.
 // Checks file names using [filepath.IsLocal], returning an error if not passed.
-func ToDir(root string, a *txtar.Archive) error {
-	for _, f := range a.Files {
+func ToDir(root string, archive *txtar.Archive) error {
+	for _, f := range archive.Files {
 		if !filepath.IsLocal(f.Name) {
 			return fmt.Errorf("txtarutil.ToDir: file name is not a valid local path on current OS: %s", f.Name)
 		}
