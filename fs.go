@@ -17,6 +17,8 @@ import (
 // ToDir writes the files specified in the archive to directory at root path.
 // Directories are created if needed. Existing files may get overwritten.
 // Checks file names using [filepath.IsLocal], returning an error if not passed.
+//
+// Deprecated: Go1.23 adds os.CopyFS, usable with txtar.FS to similar effect.
 func ToDir(root string, archive *txtar.Archive) error {
 	for _, f := range archive.Files {
 		if !filepath.IsLocal(f.Name) {
